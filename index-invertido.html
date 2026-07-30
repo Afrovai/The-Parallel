@@ -188,7 +188,7 @@
     .av-main { position:absolute; top:0; left:0; width:84%; height:88%; background:var(--paper-mid); overflow:hidden; }
     .av-main img { width:100%; height:100%; object-fit:contain; opacity:1; filter:none; }
     .mascot-upload, .mascot-reset {
-      position:absolute; bottom:.7rem; width:34px; height:34px; border-radius:50%;
+      position:absolute; top:.7rem; width:34px; height:34px; border-radius:50%;
       background:rgba(0,0,0,.42); backdrop-filter:blur(4px);
       display:flex; align-items:center; justify-content:center;
       color:var(--ink); cursor:pointer; opacity:0; transition:opacity .2s, background .2s;
@@ -201,7 +201,7 @@
     .av-main:hover .mascot-reset.visible { opacity:1; }
     .mascot-upload:hover, .mascot-reset:hover { background:rgba(0,0,0,.62); }
     .av-box {
-      position:absolute; bottom:0; right:0; width:46%; height:37%;
+      position:absolute; bottom:0; left:0; width:46%; height:37%;
       background:var(--paper); border:1px solid var(--border);
       display:flex; flex-direction:column; align-items:center; justify-content:center;
       text-align:center; padding:1.2rem;
@@ -348,6 +348,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#menu">Menu</a></li>
     <li><a href="#visit">Visit</a></li>
+    <li><a href="index.html" class="nav-theme-toggle" title="Ver versión de colores original">Versión oscura</a></li>
   </ul>
   <a href="https://www.instagram.com/theparallelinperth" target="_blank" class="nav-insta">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -395,8 +396,8 @@
       <h2 class="section-heading">YOUR NEIGHBOURHOOD CAFÉ</h2>
       <p class="body-copy">Tucked away on a backstreet in Perth CBD, The Parallel is a coffee and toast bar built for the neighbourhood. A place to slow down, connect, and find your daily parallel — great coffee, honest food, good company.</p>
       <div class="pillars">
-        <div class="pillar"><div class="p-num">6</div><div class="p-lbl">Toasties</div></div>
-        <div class="pillar"><div class="p-num">8</div><div class="p-lbl">Coffees</div></div>
+        <div class="pillar"><div class="p-num" id="toastiesCount">6</div><div class="p-lbl">Toasties</div></div>
+        <div class="pillar"><div class="p-num" id="coffeesCount">8</div><div class="p-lbl">Coffees</div></div>
         <div class="pillar"><div class="p-num" id="communityCount">1</div><div class="p-lbl">Community</div></div>
       </div>
     </div>
@@ -583,6 +584,13 @@
   const INSTAGRAM_FOLLOWERS = 205;
   const communityEl = document.getElementById('communityCount');
   if (communityEl) communityEl.textContent = INSTAGRAM_FOLLOWERS;
+
+  // "Toasties" y "Coffees" reflejan la cantidad real de ítems del menú de abajo,
+  // así no hay que acordarse de actualizar el número a mano cuando cambia el menú.
+  const toastiesEl = document.getElementById('toastiesCount');
+  const coffeesEl = document.getElementById('coffeesCount');
+  if (toastiesEl) toastiesEl.textContent = document.querySelectorAll('#tab-toast .toast-item').length;
+  if (coffeesEl) coffeesEl.textContent = document.querySelectorAll('#tab-coffee .coffee-item').length;
 
   // Foto de la mascota: permite subir una imagen propia. Solo se guarda en este
   // navegador (localStorage) — no hay backend, así que no se ve en otros dispositivos.
