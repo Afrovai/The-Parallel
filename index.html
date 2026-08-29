@@ -365,6 +365,25 @@
       text-transform:uppercase; color:rgba(var(--ink-rgb),.68); position:relative; z-index:1;
     }
 
+    /* TESTIMONIALS */
+    .testimonials-section { padding:7rem 3rem; background:var(--paper); }
+    .testimonials-inner { max-width:1100px; margin:0 auto; }
+    .testimonial-track {
+      display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory;
+      padding:2rem 0 .5rem; margin-top:.5rem; -webkit-overflow-scrolling:touch;
+    }
+    .testimonial-track::-webkit-scrollbar { height:5px; }
+    .testimonial-track::-webkit-scrollbar-thumb { background:rgba(var(--ink-rgb),.22); border-radius:99px; }
+    .testimonial-card {
+      scroll-snap-align:start; flex:0 0 min(340px,85%);
+      background:var(--paper-dark); border:1px solid var(--border);
+      padding:2rem 1.8rem;
+    }
+    .tc-stars { font-size:.85rem; letter-spacing:.18em; color:rgba(var(--ink-rgb),.75); margin-bottom:1rem; }
+    .tc-text { font-size:.94rem; line-height:1.7; color:var(--ink); margin-bottom:1.4rem; }
+    .tc-name { font-family:'Barlow Condensed',sans-serif; font-size:.76rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(var(--ink-rgb),.65); }
+    .testimonial-card.placeholder-card { text-align:center; display:flex; align-items:center; justify-content:center; }
+    .testimonial-card.placeholder-card .tc-text { font-style:italic; color:rgba(var(--ink-rgb),.72); margin-bottom:0; }
 
     /* VISIT */
     .visit { padding:7rem 3rem; background:var(--paper); }
@@ -415,7 +434,7 @@
       .nav-links { display:none; }
       .about-grid, .visit-grid { grid-template-columns:1fr; gap:3rem; }
       .about-visual { height:300px; }
-      .about, .menu-section, .visit, .quote-band, .insta-section { padding:5rem 1.5rem; }
+      .about, .menu-section, .visit, .quote-band, .testimonials-section, .insta-section { padding:5rem 1.5rem; }
       .menu-top { flex-direction:column; align-items:flex-start; gap:1.5rem; }
       .map-box { height:280px; }
       footer { flex-direction:column; gap:1.1rem; text-align:center; }
@@ -599,6 +618,67 @@
   <p class="q-text">"A backstreet in Perth CBD, where coffee meets community."</p>
   <p class="q-attr">The Parallel &nbsp;·&nbsp; 143 Barrack St, Perth WA</p>
 </div>
+
+<!-- TESTIMONIALS — real Google reviews, hand-picked by Nicolás (29 ago 2026).
+     To add another one later: duplicate a .testimonial-card block in the track below. -->
+<section class="testimonials-section reveal" id="reviews">
+  <div class="testimonials-inner">
+    <span class="eyebrow">What People Say</span>
+    <h2 class="section-heading">FROM OUR REGULARS</h2>
+    <div class="testimonial-track">
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Had a lovely brunch at The Parallel with friends. We enjoyed the coffee and toast, and everything was even better thanks to the warm and friendly owner and staff — the hospitality genuinely stood out. Definitely a nice little spot in Perth for a laid-back breakfast and good coffee. Would happily come back!"</p>
+        <div class="tc-name">— Angghoro P., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Brisket toastie is out of this world! Matcha latte is in my top 2 of the whole city — creamy, balanced and not sweet, just perfect. This is now my favourite spot for a tasty, hearty, relaxing brekky."</p>
+        <div class="tc-name">— Flor A., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"My best experience at this café, thanks to two wonderful people who were incredibly kind, welcoming, and caring. The food was absolutely delicious, and the service was amazing!"</p>
+        <div class="tc-name">— Rayan H., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Loved the Truffle Underground and the Turkish coffee... so good! The place is also so beautiful and cozy. Definitely one of my favourite specialty coffee spots in Perth. Highly recommend!"</p>
+        <div class="tc-name">— Mariagracia T., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"A beautiful little spot right in the heart of the city. If you're looking for a peaceful place to enjoy a good coffee and relax, this is definitely one of the best places — perfect for sitting back and enjoying your coffee."</p>
+        <div class="tc-name">— Ozan K., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Such a cute little spot to grab a coffee. It was absolutely pouring rain outside but the courtyard managed to stay cosy and warm. I had the chicken toasty — pickled cucumber and jalapeños is pretty much all you need in life."</p>
+        <div class="tc-name">— Rebecca J., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"THE PLACE IS AMAZING! THE FOOD WAS SO GOOD — the latte and matcha was on the spot! Staff were so kind and always put a smile on their face the moment we arrived. We also tried the brownies and it was soooooo good! Please come here and enjoy the chillness of it all!"</p>
+        <div class="tc-name">— Marlon T., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Great food, great ambience, great service. Highly recommend. The coffee was amazing and they had halal options! We rocked up at closing time and the owner was so nice and welcoming and accommodated us even though they were closing up."</p>
+        <div class="tc-name">— Danni M., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Honestly, one of the best toasties I've ever had! The coffee was really good too, and the staff were so friendly and welcoming. Such a lovely little spot with great food, great coffee and genuinely lovely service. Will definitely be coming back!"</p>
+        <div class="tc-name">— Selin A., Google</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"I tried the Underground Truffle — the toast was perfectly crisp with a rich, savory, aromatic mushroom filling. I also ordered the Backstreet Brisket, which was fantastic; tender, juicy, and flavor-packed. Great vibe and even better food — definitely worth a visit!"</p>
+        <div class="tc-name">— Muhammad F., Google</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- VISIT -->
 <section class="visit reveal" id="visit">
