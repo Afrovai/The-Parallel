@@ -63,10 +63,10 @@ jobs:
         run: |
           [ -s chequeo-resumen.md ] || exit 0
           TITULO="Chequeo automático del sitio"
-          NUM=$(gh issue list --state open --search "in:title \"$TITULO\"" --json number -q '.[0].number')
+          NUM=$(gh issue list --state open --json number,title -q ".[] | select(.title == \"$TITULO\") | .number" | head -1)
           if [ -z "$NUM" ]; then
-            gh issue create --title "$TITULO" --body "Aquí el chequeo automático (5:00 y 17:00, hora de Perth) deja lo que cambió en el sitio y lo que necesita una decisión."
-            NUM=$(gh issue list --state open --search "in:title \"$TITULO\"" --json number -q '.[0].number')
+            URL=$(gh issue create --title "$TITULO" --body "Aquí el chequeo automático (5:00 y 17:00, hora de Perth) deja lo que cambió en el sitio y lo que necesita una decisión.")
+            NUM="${URL##*/}"
           fi
           # no repetir el mismo aviso si nada cambió desde el anterior
           ULTIMO=$(gh api "repos/${{ github.repository }}/issues/$NUM/comments" -q '.[-1].body' 2>/dev/null || true)
