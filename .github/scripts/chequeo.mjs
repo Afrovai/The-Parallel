@@ -14,6 +14,8 @@ import { join } from "node:path";
 
 const STORE = "https://theparallelonline.square.site/";
 const CATEGORIAS = ["Toast", "Cold Drinks", "Hot Drinks"];   // las que muestra el sitio
+// Productos de la tienda que Nico decidió no mostrar en el sitio (19 nov 2026): no avisar por ellos.
+const IGNORAR = ["Savoury Muffins", "Peanut butter & Jam", "Green juice Emma Toms"];
 const DRY = process.argv.includes("--dry");
 const FILE = "index.html";
 
@@ -90,7 +92,7 @@ else {
     resumen.cambios.push(`${nombres.join(" / ")}: ${actual.trim()} → ${nuevo}`);
     return full.replace(`>${actual}</div>`, `>${nuevo}</div>`);
   });
-  for (const it of tienda) if (CATEGORIAS.includes(it.cat) && !usados.has(it.text)) resumen.nuevos.push(`${it.cat}: ${it.text.replace(/\s*A\$.*$/, "").slice(0, 80)} (A$${it.lo}${it.hi !== it.lo ? "–" + it.hi : ""})`);
+  for (const it of tienda) if (CATEGORIAS.includes(it.cat) && !usados.has(it.text) && !IGNORAR.some((n) => norm(it.text).startsWith(norm(n)))) resumen.nuevos.push(`${it.cat}: ${it.text.replace(/\s*A\$.*$/, "").slice(0, 80)} (A$${it.lo}${it.hi !== it.lo ? "–" + it.hi : ""})`);
 }
 
 // ---------- 2. seguidores de Instagram (API oficial de Meta) ----------
