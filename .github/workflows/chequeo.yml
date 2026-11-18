@@ -1,0 +1,75 @@
+# Chequeo automático: precios del menú (desde la tienda de Square) y seguidores de Instagram.
+# Corre a las 5:00 y a las 17:00 hora de Perth (UTC+8, sin horario de verano).
+# GitHub puede atrasar los horarios programados unos minutos.
+# Si algo cambia, lo sube al sitio en vivo y deja un comentario en el aviso
+# "Chequeo automático del sitio" (llega por correo a la cuenta Afrovai).
+name: Chequeo automático
+
+on:
+  schedule:
+    - cron: "0 21 * * *"   # 05:00 en Perth
+    - cron: "0 9 * * *"    # 17:00 en Perth
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: chequeo
+  cancel-in-progress: false
+
+jobs:
+  chequeo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Comparar con la tienda y actualizar
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+        run: node .github/scripts/chequeo.mjs
+
+      - name: Subir cambios al sitio
+        id: subir
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "cambios=no" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "chequeo-automatico"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Chequeo automático: actualiza precios/seguidores desde Square e Instagram"
+            git push
+            echo "cambios=si" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publicar el sitio
+        if: steps.subir.outputs.cambios == 'si'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+
+      - name: Avisar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -s chequeo-resumen.md ] || exit 0
+          TITULO="Chequeo automático del sitio"
+          NUM=$(gh issue list --state open --search "in:title \"$TITULO\"" --json number -q '.[0].number')
+          if [ -z "$NUM" ]; then
+            gh issue create --title "$TITULO" --body "Aquí el chequeo automático (5:00 y 17:00, hora de Perth) deja lo que cambió en el sitio y lo que necesita una decisión."
+            NUM=$(gh issue list --state open --search "in:title \"$TITULO\"" --json number -q '.[0].number')
+          fi
+          # no repetir el mismo aviso si nada cambió desde el anterior
+          ULTIMO=$(gh api "repos/${{ github.repository }}/issues/$NUM/comments" -q '.[-1].body' 2>/dev/null || true)
+          if [ "$ULTIMO" != "$(cat chequeo-resumen.md)" ]; then
+            gh issue comment "$NUM" --body-file chequeo-resumen.md
+          fi
